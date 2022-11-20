@@ -27,6 +27,8 @@ func (u *User) ToMemoryUser() (*MemoryUser, error) {
 		Account:     account,
 		Email:       u.Email,
 		Level:       u.Level,
+
+		// Device Limit and Speed Limit
 		DeviceLimit: u.DeviceLimit,
 		SpeedLimit:  u.SpeedLimit,
 	}, nil
@@ -38,6 +40,8 @@ type MemoryUser struct {
 	Account     Account
 	Email       string
 	Level       uint32
+
+	// Device Limit and Speed Limit
 	DeviceLimit int
 	SpeedLimit  uint64
 }
