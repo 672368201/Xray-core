@@ -46,6 +46,7 @@ func (l *Limiter) GetUserBucket(tag string, email string, deviceLimit int, speed
 			}
 		}
 
+		// If need the Speed limit
 		if speedLimit > 0 {
 			limiter := rate.NewLimiter(rate.Limit(speedLimit), int(speedLimit)) // Byte/s
 			if v, ok := inboundInfo.BucketHub.LoadOrStore(email, limiter); ok {
