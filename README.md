@@ -80,11 +80,9 @@ This repo relies on the following third-party projects:
 
 ```bash
 git clone https://github.com/XTLS/Xray-core.git
-cd Xray-core && go mod download
-```
-
-```bash
+cd Xray-core
 go mod tidy
+go mod download
 ```
 
 ### Windows
