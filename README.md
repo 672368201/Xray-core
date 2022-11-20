@@ -76,6 +76,15 @@ This repo relies on the following third-party projects:
 
 ## Compilation
 
+```bash
+git clone https://github.com/XTLS/Xray-core.git
+cd Xray-core && go mod download
+```
+
+```bash
+go mod tidy
+```
+
 ### Windows
 
 ```bash
