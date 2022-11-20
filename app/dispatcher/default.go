@@ -25,7 +25,8 @@ import (
 	"github.com/xtls/xray-core/transport"
 	"github.com/xtls/xray-core/transport/pipe"
 
-	"github.com/XrayR-project/XrayR/common/limiter"
+	// Device Limit and Speed Limit
+	"github.com/xtls/xray-core/common/limiter"
 )
 
 var errSniffingTimeout = newError("timeout on sniffing")
