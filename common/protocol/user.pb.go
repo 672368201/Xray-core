@@ -29,6 +29,7 @@ type User struct {
 
 	// For global device limit
 	ID int
+	//
 	
 	Level uint32 `protobuf:"varint,1,opt,name=level,proto3" json:"level,omitempty"`
 	Email string `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
@@ -39,6 +40,7 @@ type User struct {
 	// Device limit and speed limit
 	DeviceLimit int
 	SpeedLimit  uint64
+	//
 }
 
 func (x *User) Reset() {
@@ -80,6 +82,7 @@ func (x *User) GetID() int {
 	}
 	return 0
 }
+//
 
 func (x *User) GetLevel() uint32 {
 	if x != nil {
@@ -116,6 +119,7 @@ func (x *User) GetSpeedLimit() uint64 {
 	}
 	return 0
 }
+//
 
 var File_common_protocol_user_proto protoreflect.FileDescriptor
 
