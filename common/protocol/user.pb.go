@@ -82,7 +82,6 @@ func (x *User) GetID() int {
 	}
 	return 0
 }
-
 //
 
 func (x *User) GetLevel() uint32 {
@@ -120,7 +119,6 @@ func (x *User) GetSpeedLimit() uint64 {
 	}
 	return 0
 }
-
 //
 
 var File_common_protocol_user_proto protoreflect.FileDescriptor
