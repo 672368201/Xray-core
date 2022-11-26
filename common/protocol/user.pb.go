@@ -91,6 +91,20 @@ func (x *User) GetAccount() *serial.TypedMessage {
 	return nil
 }
 
+func (x *User) GetDeviceLimit() int {
+	if x != nil {
+		return x.DeviceLimit
+	}
+	return 0
+}
+
+func (x *User) GetSpeedLimit() uint64 {
+	if x != nil {
+		return x.SpeedLimit
+	}
+	return 0
+}
+
 var File_common_protocol_user_proto protoreflect.FileDescriptor
 
 var file_common_protocol_user_proto_rawDesc = []byte{
