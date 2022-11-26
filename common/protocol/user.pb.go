@@ -27,13 +27,16 @@ type User struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// For global device limit
+	ID int
+	
 	Level uint32 `protobuf:"varint,1,opt,name=level,proto3" json:"level,omitempty"`
 	Email string `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
 	// Protocol specific account information. Must be the account proto in one of
 	// the proxies.
 	Account     *serial.TypedMessage `protobuf:"bytes,3,opt,name=account,proto3" json:"account,omitempty"`
 
-	// Device Limit and Speed Limit
+	// Device limit and speed limit
 	DeviceLimit int
 	SpeedLimit  uint64
 }
@@ -70,6 +73,14 @@ func (*User) Descriptor() ([]byte, []int) {
 	return file_common_protocol_user_proto_rawDescGZIP(), []int{0}
 }
 
+// For global device limit
+func (x *User) GetID() int {
+	if x != nil {
+		return x.ID
+	}
+	return 0
+}
+
 func (x *User) GetLevel() uint32 {
 	if x != nil {
 		return x.Level
@@ -91,6 +102,7 @@ func (x *User) GetAccount() *serial.TypedMessage {
 	return nil
 }
 
+// Device limit and speed limit
 func (x *User) GetDeviceLimit() int {
 	if x != nil {
 		return x.DeviceLimit
