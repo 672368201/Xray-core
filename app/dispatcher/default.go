@@ -25,8 +25,9 @@ import (
 	"github.com/xtls/xray-core/transport"
 	"github.com/xtls/xray-core/transport/pipe"
 
-	// Device Limit and Speed Limit
+	// Device limit and speed limit
 	"github.com/xtls/xray-core/common/limiter"
+	//
 )
 
 var errSniffingTimeout = newError("timeout on sniffing")
@@ -99,8 +100,9 @@ type DefaultDispatcher struct {
 	dns    dns.Client
 	fdns   dns.FakeDNSEngine
 
-	// Device Limit and Speed Limit
+	// Device limit and speed limit
 	Limiter *limiter.Limiter
+	//
 }
 
 func init() {
@@ -126,8 +128,9 @@ func (d *DefaultDispatcher) Init(config *Config, om outbound.Manager, router rou
 	d.stats = sm
 	d.dns = dns
 
-	// Device Limit and Speed Limit
+	// Device limit and speed limit
 	d.Limiter = limiter.New()
+	//
 	return nil
 }
 
@@ -234,7 +237,7 @@ func (d *DefaultDispatcher) getLink(ctx context.Context, network net.Network, sn
 
 	if user != nil && len(user.Email) > 0 {
 
-		// Device Limit and Speed Limit
+		// Device limit and speed limit
 		bucket, ok, reject := d.Limiter.GetUserBucket(sessionInbound.Tag, user.Email, user.DeviceLimit, user.SpeedLimit, sessionInbound.Source.Address.IP().String(), uint16(sessionInbound.Source.Port))
 		if reject {
 			newError("Devices reach the limit: ", user.Email).AtError().WriteToLog()
@@ -248,6 +251,7 @@ func (d *DefaultDispatcher) getLink(ctx context.Context, network net.Network, sn
 			inboundLink.Writer = d.Limiter.RateWriter(inboundLink.Writer, bucket)
 			outboundLink.Writer = d.Limiter.RateWriter(outboundLink.Writer, bucket)
 		}
+		//
 
 		p := d.policy.ForLevel(user.Level)
 		if p.Stats.UserUplink {
