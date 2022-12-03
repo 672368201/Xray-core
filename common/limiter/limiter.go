@@ -9,7 +9,7 @@ import (
 type InboundInfo struct {
 	Tag          string
 	BucketHub    *sync.Map // key: Email, value: *rate.Limiter
-	UserOnlineIP *sync.Map // Key: Email Value: *sync.Map: Key: IP, Value: UID
+	UserOnlineIP *sync.Map // Key: Email, Value: [*sync.Map: (Key: IP, Value: UID)]
 }
 
 type Limiter struct {
