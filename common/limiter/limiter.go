@@ -61,7 +61,7 @@ func (l *Limiter) GetUserBucket(tag string, uid int, email string, deviceLimit i
 			return nil, false, false
 		}
 	} else {
-		newError("Get Inbound Limiter information failed").AtDebug().WriteToLog()
+		newError("Failed to get inbound limiter information").AtDebug().WriteToLog()
 		return nil, false, false
 	}
 }
