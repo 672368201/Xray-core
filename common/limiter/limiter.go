@@ -22,8 +22,8 @@ func New() *Limiter {
 	}
 }
 
-func (l *Limiter) GetUserBucket(tag string, uid int, email string, deviceLimit int, speedLimit uint64, ip string) (limiter *rate.Limiter, SpeedLimit bool, Reject bool) {
-	if value, ok := l.InboundInfo.Load(tag); ok {
+func (limiter *Limiter) GetUserBucket(tag string, uid int, email string, deviceLimit int, speedLimit uint64, ip string) (limiter *rate.Limiter, SpeedLimit bool, Reject bool) {
+	if value, ok := limiter.InboundInfo.Load(tag); ok {
 		inboundInfo := value.(*InboundInfo)
 
 		// Local device limit
