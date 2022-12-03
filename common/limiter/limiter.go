@@ -29,11 +29,13 @@ func (l *Limiter) GetUserBucket(tag string, uid int, email string, deviceLimit i
 		// Local device limit
 		ipMap := new(sync.Map)
 		ipMap.Store(ip, uid)
-		// If any device for this user is online
+		// If any device for this email is online
 		if v, ok := inboundInfo.UserOnlineIP.LoadOrStore(email, ipMap); ok {
+			//Get all ip:uid maps for this email
 			ipMap := v.(*sync.Map)
-			// If this ip is a new device
+			// If this IP is a new device
 			if _, ok := ipMap.LoadOrStore(ip, uid); !ok {
+				//Get the number of current online devices
 				counter := 0
 				ipMap.Range(func(key, value interface{}) bool {
 					counter++
