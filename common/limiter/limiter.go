@@ -22,18 +22,18 @@ func New() *Limiter {
 	}
 }
 
-func (l *Limiter) GetUserBucket(tag string, email string, deviceLimit int, speedLimit uint64, ip string, port uint16) (limiter *rate.Limiter, SpeedLimit bool, Reject bool) {
+func (l *Limiter) GetUserBucket(tag string, uid int, email string, deviceLimit int, speedLimit uint64, ip string) (limiter *rate.Limiter, SpeedLimit bool, Reject bool) {
 	if value, ok := l.InboundInfo.Load(tag); ok {
 		inboundInfo := value.(*InboundInfo)
 
 		// Local device limit
 		ipMap := new(sync.Map)
-		ipMap.Store(ip, port)
+		ipMap.Store(ip, uid)
 		// If any device is online
 		if v, ok := inboundInfo.UserOnlineIP.LoadOrStore(email, ipMap); ok {
 			ipMap := v.(*sync.Map)
 			// If this ip is a new device
-			if _, ok := ipMap.LoadOrStore(ip, port); !ok {
+			if _, ok := ipMap.LoadOrStore(ip, uid); !ok {
 				counter := 0
 				ipMap.Range(func(key, value interface{}) bool {
 					counter++
