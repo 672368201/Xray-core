@@ -134,8 +134,9 @@ type InboundHandlerConfig struct {
 	// Settings for inbound proxy. Must be one of the inbound proxies.
 	ProxySettings *serial.TypedMessage `protobuf:"bytes,3,opt,name=proxy_settings,json=proxySettings,proto3" json:"proxy_settings,omitempty"`
 
-	Limiter *limiter.Limiter
-	UserSpeedLimit uint64
+	Limiter *limiter.Limiter `protobuf:"bytes,4,opt,name=limiter,json=limiter,proto3" json:"limiter,omitempty"`
+	
+	UserSpeedLimit uint64 `protobuf:"varint,5,opt,name=user_speed_limit,proto3" json:"user_speed_limit,omitempty"`
 }
 
 func (x *InboundHandlerConfig) Reset() {
