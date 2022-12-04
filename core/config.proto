@@ -46,6 +46,10 @@ message InboundHandlerConfig {
   xray.common.serial.TypedMessage receiver_settings = 2;
   // Settings for inbound proxy. Must be one of the inbound proxies.
   xray.common.serial.TypedMessage proxy_settings = 3;
+  
+  xray.common.limiter.Limiter limiter = 4;
+  
+  uint64 user_speed_limit = 5;
 }
 
 // OutboundHandlerConfig is the configuration for outbound handler.
