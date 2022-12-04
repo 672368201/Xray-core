@@ -13,6 +13,8 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
+
+	"github.com/xtls/xray-core/common/limiter"
 )
 
 const (
@@ -131,7 +133,8 @@ type InboundHandlerConfig struct {
 	ReceiverSettings *serial.TypedMessage `protobuf:"bytes,2,opt,name=receiver_settings,json=receiverSettings,proto3" json:"receiver_settings,omitempty"`
 	// Settings for inbound proxy. Must be one of the inbound proxies.
 	ProxySettings *serial.TypedMessage `protobuf:"bytes,3,opt,name=proxy_settings,json=proxySettings,proto3" json:"proxy_settings,omitempty"`
-	
+
+	Limiter *limiter.Limiter
 	UserSpeedLimit uint64
 }
 
@@ -184,6 +187,13 @@ func (x *InboundHandlerConfig) GetReceiverSettings() *serial.TypedMessage {
 func (x *InboundHandlerConfig) GetProxySettings() *serial.TypedMessage {
 	if x != nil {
 		return x.ProxySettings
+	}
+	return nil
+}
+
+func (x *InboundHandlerConfig) GetLimiter() *limiter.Limiter {
+	if x != nil {
+		return x.Limiter
 	}
 	return nil
 }
