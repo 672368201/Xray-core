@@ -6,8 +6,6 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/xtls/xray-core/app/dispatcher"
-
 	"github.com/xtls/xray-core/app/proxyman"
 	"github.com/xtls/xray-core/common"
 	"github.com/xtls/xray-core/common/buf"
@@ -25,6 +23,9 @@ import (
 	"github.com/xtls/xray-core/transport/internet/udp"
 	"github.com/xtls/xray-core/transport/pipe"
 
+
+	"github.com/xtls/xray-core/app/dispatcher"
+	"github.com/xtls/xray-core/common/protocol"
 	"github.com/xtls/xray-core/common/limiter"
 )
 
@@ -115,6 +116,10 @@ func (w *tcpWorker) callback(conn stat.Connection) {
 	conn.Close()
 	
 	sessionInbound := session.InboundFromContext(w.ctx)
+	var user *protocol.MemoryUser
+	if sessionInbound != nil {
+		user = sessionInbound.User
+	}
 }
 
 func (w *tcpWorker) Proxy() proxy.Inbound {
@@ -343,6 +348,10 @@ func (w *udpWorker) callback(b *buf.Buffer, source net.Destination, originalDest
 			}
 			
 			sessionInbound := session.InboundFromContext(w.ctx)
+			var user *protocol.MemoryUser
+			if sessionInbound != nil {
+				user = sessionInbound.User
+			}
 		}()
 	}
 }
@@ -495,6 +504,10 @@ func (w *dsWorker) callback(conn stat.Connection) {
 	}
 	
 	sessionInbound := session.InboundFromContext(w.ctx)
+	var user *protocol.MemoryUser
+	if sessionInbound != nil {
+		user = sessionInbound.User
+	}
 }
 
 func (w *dsWorker) Proxy() proxy.Inbound {
