@@ -31,7 +31,7 @@ func (limiter *Limiter) GetUserBucket(tag string, uid int, email string, deviceL
 		ipMap.Store(ip, uid)
 		// If any devices for this email are online
 		if v, ok := inboundInfo.UserOnlineIP.LoadOrStore(email, ipMap); ok {
-			// Get all ip:uid maps for this email
+			// Get all current online ip:uid maps for this email
 			ipMap := v.(*sync.Map)
 			// If this is a new IP
 			if _, ok := ipMap.LoadOrStore(ip, uid); !ok {
