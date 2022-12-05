@@ -41,6 +41,7 @@ func (limiter *Limiter) GetUserBucket(tag string, uid int, email string, deviceL
 					counter++
 					return true
 				})
+				// Delete this new IP if online IPs exceeds the device limit
 				if counter > deviceLimit && deviceLimit > 0 {
 					ipMap.Delete(ip)
 					return nil, false, true
