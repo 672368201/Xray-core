@@ -22,6 +22,8 @@ import (
 	"github.com/xtls/xray-core/transport/internet/tcp"
 	"github.com/xtls/xray-core/transport/internet/udp"
 	"github.com/xtls/xray-core/transport/pipe"
+
+	"github.com/xtls/xray-core/common/limiter"
 )
 
 type worker interface {
