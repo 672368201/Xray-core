@@ -105,7 +105,7 @@ func (w *tcpWorker) callback(conn stat.Connection) {
 	ctx = session.ContextWithContent(ctx, content)
 
 	if err := w.proxy.Process(ctx, net.Network_TCP, conn, w.dispatcher); err != nil {
-		newError("connection ends").Base(err).WriteToLog(session.ExportIDToError(ctx))
+		newError("connection ends - app/proxyman/inbound/worker.go: TCP").Base(err).WriteToLog(session.ExportIDToError(ctx))
 	}
 	cancel()
 	conn.Close()
@@ -327,7 +327,7 @@ func (w *udpWorker) callback(b *buf.Buffer, source net.Destination, originalDest
 			}
 			ctx = session.ContextWithContent(ctx, content)
 			if err := w.proxy.Process(ctx, net.Network_UDP, conn, w.dispatcher); err != nil {
-				newError("connection ends").Base(err).WriteToLog(session.ExportIDToError(ctx))
+				newError("connection ends - app/proxyman/inbound/worker.go: UDP").Base(err).WriteToLog(session.ExportIDToError(ctx))
 			}
 			conn.Close()
 			// conn not removed by checker TODO may be lock worker here is better
@@ -479,7 +479,7 @@ func (w *dsWorker) callback(conn stat.Connection) {
 	ctx = session.ContextWithContent(ctx, content)
 
 	if err := w.proxy.Process(ctx, net.Network_UNIX, conn, w.dispatcher); err != nil {
-		newError("connection ends").Base(err).WriteToLog(session.ExportIDToError(ctx))
+		newError("connection ends - app/proxyman/inbound/worker.go: UNIX").Base(err).WriteToLog(session.ExportIDToError(ctx))
 	}
 	cancel()
 	if err := conn.Close(); err != nil {
