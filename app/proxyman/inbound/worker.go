@@ -113,6 +113,8 @@ func (w *tcpWorker) callback(conn stat.Connection) {
 	}
 	cancel()
 	conn.Close()
+	
+	sessionInbound := session.InboundFromContext(w.ctx)
 }
 
 func (w *tcpWorker) Proxy() proxy.Inbound {
@@ -339,6 +341,8 @@ func (w *udpWorker) callback(b *buf.Buffer, source net.Destination, originalDest
 				conn.setInactive()
 				w.removeConn(id)
 			}
+			
+			sessionInbound := session.InboundFromContext(w.ctx)
 		}()
 	}
 }
@@ -489,6 +493,8 @@ func (w *dsWorker) callback(conn stat.Connection) {
 	if err := conn.Close(); err != nil {
 		newError("failed to close connection").Base(err).WriteToLog(session.ExportIDToError(ctx))
 	}
+	
+	sessionInbound := session.InboundFromContext(w.ctx)
 }
 
 func (w *dsWorker) Proxy() proxy.Inbound {
