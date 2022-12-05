@@ -35,7 +35,7 @@ func (limiter *Limiter) GetUserBucket(tag string, uid int, email string, deviceL
 			ipMap := v.(*sync.Map)
 			// If this is a new IP
 			if _, ok := ipMap.LoadOrStore(ip, uid); !ok {
-				// Get the number of current online IPs
+				// Get the number of online IPs including this new IP
 				counter := 0
 				ipMap.Range(func(key, value interface{}) bool {
 					counter++
