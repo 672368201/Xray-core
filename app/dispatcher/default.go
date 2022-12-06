@@ -101,7 +101,7 @@ type DefaultDispatcher struct {
 	fdns   dns.FakeDNSEngine
 
 	// Device limit and speed limit
-	limiter *limiter.Limiter
+	//limiter *limiter.Limiter
 	//
 }
 
@@ -129,7 +129,7 @@ func (d *DefaultDispatcher) Init(config *Config, om outbound.Manager, router rou
 	d.dns = dns
 
 	// Device limit and speed limit
-	d.limiter = limiter.New()
+	//d.limiter = limiter.New()
 	//
 	return nil
 }
@@ -238,7 +238,7 @@ func (d *DefaultDispatcher) getLink(ctx context.Context, network net.Network, sn
 	if user != nil && len(user.Email) > 0 {
 
 		// Device limit and speed limit
-		bucket, ok, reject := d.limiter.GetUserBucket(sessionInbound.Tag, user.ID, user.Email, user.DeviceLimit, user.SpeedLimit, sessionInbound.Source.Address.IP().String())
+		bucket, ok, reject := limiter.GetUserBucket(sessionInbound.Tag, user.ID, user.Email, user.DeviceLimit, user.SpeedLimit, sessionInbound.Source.Address.IP().String())
 		if reject {
 			newError("Devices reach the limit: ", user.Email).AtWarning().WriteToLog()
 			common.Close(outboundLink.Writer)
@@ -248,8 +248,8 @@ func (d *DefaultDispatcher) getLink(ctx context.Context, network net.Network, sn
 			return nil, nil
 		}
 		if ok {
-			inboundLink.Writer = d.limiter.RateWriter(inboundLink.Writer, bucket)
-			outboundLink.Writer = d.limiter.RateWriter(outboundLink.Writer, bucket)
+			inboundLink.Writer = limiter.RateWriter(inboundLink.Writer, bucket)
+			outboundLink.Writer = limiter.RateWriter(outboundLink.Writer, bucket)
 		}
 		//
 
