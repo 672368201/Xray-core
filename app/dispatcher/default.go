@@ -248,7 +248,7 @@ func (d *DefaultDispatcher) getLink(ctx context.Context, network net.Network, sn
 			common.Interrupt(inboundLink.Reader)
 			return nil, nil
 		} else {
-			if user.SpeedLimit > 0 {
+			if user.SpeedLimit != nil && user.SpeedLimit > 0 {
 				bucket := rate.NewLimiter(rate.Limit(user.SpeedLimit), int(user.SpeedLimit)) // Byte/s
 				inboundLink.Writer = limiter.RateWriter(inboundLink.Writer, bucket)
 				outboundLink.Writer = limiter.RateWriter(outboundLink.Writer, bucket)
