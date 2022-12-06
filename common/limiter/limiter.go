@@ -14,7 +14,7 @@ type Limiter struct {
 	Inbound Inbound
 }
 
-var limiter = &Limiter{}
+var limiter Limiter
 
 func CheckDeviceLimit(uid int, email string, deviceLimit int, ip string) bool {
 		// Local device limit
