@@ -16,10 +16,8 @@ type Limiter struct {
 	InboundInfo *sync.Map // Key: Tag, Value: *InboundInfo
 }
 
-func New() *Limiter {
-	return &Limiter{
-		InboundInfo: new(sync.Map),
-	}
+var limiter = &Limiter{
+	InboundInfo: new(sync.Map),
 }
 
 func CheckDeviceLimit(tag string, uid int, email string, deviceLimit int, ip string) bool {
