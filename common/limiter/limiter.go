@@ -33,7 +33,7 @@ func CheckDeviceLimit(uid int, email string, deviceLimit int, ip string) bool {
 				return true
 			})
 			// Delete this new IP if online IPs exceeds the device limit
-			if counter > deviceLimit && deviceLimit > 0 {
+			if counter > deviceLimit {
 				ipMap.Delete(ip)
 				return true
 			}
