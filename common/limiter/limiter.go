@@ -51,8 +51,3 @@ func CheckDeviceLimit(tag string, uid int, email string, deviceLimit int, ip str
 		return false
 	}
 }
-
-func CheckSpeedLimit(speedLimit uint64) *rate.Limiter {
-	limiter := rate.NewLimiter(rate.Limit(speedLimit), int(speedLimit)) // Byte/s
-	return limiter
-}
