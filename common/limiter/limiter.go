@@ -20,7 +20,7 @@ var limiter = &Limiter{
 	InboundInfo: new(sync.Map),
 }
 
-func CheckDeviceLimit(tag string, uid int, email string, deviceLimit int, ip string) bool {
+func CheckDeviceLimit(uid int, email string, deviceLimit int, ip string) bool {
 		// Local device limit
 		ipMap := new(sync.Map)
 		ipMap.Store(ip, uid)
@@ -43,4 +43,14 @@ func CheckDeviceLimit(tag string, uid int, email string, deviceLimit int, ip str
 				}
 			}
 		}
+}
+
+func resetDeviceLimit() error {
+	inboundInfo.UserOnlineIP.Range(func(key, value interface{}) bool {
+		email := key.(string)
+		inboundInfo.UserOnlineIP.Delete(email) // Reset online device
+		return true
+	})
+
+	return nil
 }
