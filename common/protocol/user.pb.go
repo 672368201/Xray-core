@@ -38,8 +38,8 @@ type User struct {
 	Account *serial.TypedMessage `protobuf:"bytes,3,opt,name=account,proto3" json:"account,omitempty"`
 
 	// Device limit and speed limit
-	DeviceLimit int
-	SpeedLimit  uint64
+	DeviceLimit int `protobuf:"varint,4,opt,name=device_limit,proto3" json:"device_limit,omitempty"`
+	SpeedLimit  uint64 `protobuf:"varint,5,opt,name=speed_limit,proto3" json:"speed_limit,omitempty"`
 	//
 }
 
