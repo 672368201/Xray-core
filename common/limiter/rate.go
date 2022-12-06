@@ -15,7 +15,7 @@ type Writer struct {
 	w       io.Writer
 }
 
-func (l *Limiter) RateWriter(writer buf.Writer, limiter *rate.Limiter) buf.Writer {
+func RateWriter(writer buf.Writer, limiter *rate.Limiter) buf.Writer {
 	return &Writer{
 		writer:  writer,
 		limiter: limiter,
