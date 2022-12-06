@@ -6,26 +6,22 @@ import (
 	"sync"
 )
 
-type InboundInfo struct {
-	Tag          string
-	BucketHub    *sync.Map // Key: Email, Value: *rate.Limiter
-	UserOnlineIP *sync.Map // Key: Email, Value: [*sync.Map: (Key: IP, Value: UID)]
+type Inbound struct {
+	UserOnlineIPs *sync.Map // Key: Email, Value: [*sync.Map: (Key: IP, Value: UID)]
 }
 
 type Limiter struct {
-	InboundInfo *sync.Map // Key: Tag, Value: *InboundInfo
+	Inbound Inbound
 }
 
-var limiter = &Limiter{
-	InboundInfo: new(sync.Map),
-}
+var limiter = &Limiter{}
 
 func CheckDeviceLimit(uid int, email string, deviceLimit int, ip string) bool {
 		// Local device limit
 		ipMap := new(sync.Map)
 		ipMap.Store(ip, uid)
 		// If any devices for this email are online
-		if v, ok := inboundInfo.UserOnlineIP.LoadOrStore(email, ipMap); ok {
+		if v, ok := limiter.Inbound.UserOnlineIPs.LoadOrStore(email, ipMap); ok {
 			// Get all current online ip:uid maps for this email
 			ipMap := v.(*sync.Map)
 			// If this is a new IP
@@ -46,9 +42,9 @@ func CheckDeviceLimit(uid int, email string, deviceLimit int, ip string) bool {
 }
 
 func resetDeviceLimit() error {
-	inboundInfo.UserOnlineIP.Range(func(key, value interface{}) bool {
+	limiter.Inbound.UserOnlineIPs.Range(func(key, value interface{}) bool {
 		email := key.(string)
-		inboundInfo.UserOnlineIP.Delete(email) // Reset online device
+		limiter.Inbound.UserOnlineIPs.Delete(email)
 		return true
 	})
 
