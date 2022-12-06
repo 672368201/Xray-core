@@ -7,7 +7,7 @@ import (
 )
 
 type Inbound struct {
-	UserOnlineIPs *sync.Map // Key: Email, Value: [*sync.Map: (Key: IP, Value: UID)]
+	UserOnlineIPs sync.Map // Key: Email, Value: [*sync.Map: (Key: IP, Value: UID)]
 }
 
 type Limiter struct {
