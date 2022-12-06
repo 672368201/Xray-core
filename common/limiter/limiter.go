@@ -21,9 +21,6 @@ var limiter = &Limiter{
 }
 
 func CheckDeviceLimit(tag string, uid int, email string, deviceLimit int, ip string) bool {
-	if value, ok := limiter.InboundInfo.Load(tag); ok {
-		inboundInfo := value.(*InboundInfo)
-
 		// Local device limit
 		ipMap := new(sync.Map)
 		ipMap.Store(ip, uid)
@@ -46,8 +43,4 @@ func CheckDeviceLimit(tag string, uid int, email string, deviceLimit int, ip str
 				}
 			}
 		}
-	} else {
-		newError("Failed to get inbound limiter information").AtDebug().WriteToLog()
-		return false
-	}
 }
