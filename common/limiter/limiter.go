@@ -22,7 +22,7 @@ func New() *Limiter {
 	}
 }
 
-func (limiter *Limiter) GetUserBucket(tag string, uid int, email string, deviceLimit int, speedLimit uint64, ip string) (limiter *rate.Limiter, SpeedLimit bool, Reject bool) {
+func CheckDeviceLimit(tag string, uid int, email string, deviceLimit int, ip string) bool {
 	if value, ok := limiter.InboundInfo.Load(tag); ok {
 		inboundInfo := value.(*InboundInfo)
 
@@ -44,25 +44,34 @@ func (limiter *Limiter) GetUserBucket(tag string, uid int, email string, deviceL
 				// Delete this new IP if online IPs exceeds the device limit
 				if counter > deviceLimit && deviceLimit > 0 {
 					ipMap.Delete(ip)
-					return nil, false, true
+					return true
 				}
 			}
 		}
+	} else {
+		newError("Failed to get inbound limiter information").AtDebug().WriteToLog()
+		return false
+	}
+}
+
+func CheckSpeedLimit(tag string, uid int, email string, speedLimit uint64, ip string) (limiter *rate.Limiter, SpeedLimit bool) {
+	if value, ok := limiter.InboundInfo.Load(tag); ok {
+		inboundInfo := value.(*InboundInfo)
 
 		// If need the Speed limit
 		if speedLimit > 0 {
 			limiter := rate.NewLimiter(rate.Limit(speedLimit), int(speedLimit)) // Byte/s
 			if v, ok := inboundInfo.BucketHub.LoadOrStore(email, limiter); ok {
 				bucket := v.(*rate.Limiter)
-				return bucket, true, false
+				return bucket, true
 			} else {
-				return limiter, true, false
+				return limiter, true
 			}
 		} else {
-			return nil, false, false
+			return nil, false
 		}
 	} else {
 		newError("Failed to get inbound limiter information").AtDebug().WriteToLog()
-		return nil, false, false
+		return nil, false
 	}
 }
