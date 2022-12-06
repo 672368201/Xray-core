@@ -52,24 +52,7 @@ func CheckDeviceLimit(tag string, uid int, email string, deviceLimit int, ip str
 	}
 }
 
-func CheckSpeedLimit(tag string, uid int, email string, speedLimit uint64, ip string) (limiter *rate.Limiter, SpeedLimit bool) {
-	if value, ok := limiter.InboundInfo.Load(tag); ok {
-		inboundInfo := value.(*InboundInfo)
-
-		// If need the Speed limit
-		if speedLimit > 0 {
-			limiter := rate.NewLimiter(rate.Limit(speedLimit), int(speedLimit)) // Byte/s
-			if v, ok := inboundInfo.BucketHub.LoadOrStore(email, limiter); ok {
-				bucket := v.(*rate.Limiter)
-				return bucket, true
-			} else {
-				return limiter, true
-			}
-		} else {
-			return nil, false
-		}
-	} else {
-		newError("Failed to get inbound limiter information").AtDebug().WriteToLog()
-		return nil, false
-	}
+func CheckSpeedLimit(speedLimit uint64) *rate.Limiter {
+	limiter := rate.NewLimiter(rate.Limit(speedLimit), int(speedLimit)) // Byte/s
+	return limiter
 }
