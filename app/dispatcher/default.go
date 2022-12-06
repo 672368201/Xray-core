@@ -100,10 +100,6 @@ type DefaultDispatcher struct {
 	stats  stats.Manager
 	dns    dns.Client
 	fdns   dns.FakeDNSEngine
-
-	// Device limit and speed limit
-	//limiter *limiter.Limiter
-	//
 }
 
 func init() {
@@ -128,10 +124,6 @@ func (d *DefaultDispatcher) Init(config *Config, om outbound.Manager, router rou
 	d.policy = pm
 	d.stats = sm
 	d.dns = dns
-
-	// Device limit and speed limit
-	//d.limiter = limiter.New()
-	//
 	return nil
 }
 
@@ -240,7 +232,7 @@ func (d *DefaultDispatcher) getLink(ctx context.Context, network net.Network, sn
 
 		// Device limit and speed limit
 		if user.DeviceLimit != nil && user.DeviceLimit > 0 {
-			reject := limiter.CheckDeviceLimit(sessionInbound.Tag, user.ID, user.Email, user.DeviceLimit, sessionInbound.Source.Address.IP().String())
+			reject := limiter.CheckDeviceLimit(user.ID, user.Email, user.DeviceLimit, sessionInbound.Source.Address.IP().String())
 			if reject {
 				//newError("Devices reach the limit: ", user.Email).AtWarning().WriteToLog()
 				common.Close(outboundLink.Writer)
