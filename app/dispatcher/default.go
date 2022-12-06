@@ -26,6 +26,7 @@ import (
 	"github.com/xtls/xray-core/transport/pipe"
 
 	// Device limit and speed limit
+	"rate"
 	"github.com/xtls/xray-core/common/limiter"
 	//
 )
@@ -247,8 +248,8 @@ func (d *DefaultDispatcher) getLink(ctx context.Context, network net.Network, sn
 			common.Interrupt(inboundLink.Reader)
 			return nil, nil
 		} else {
-			bucket, ok := limiter.CheckSpeedLimit(sessionInbound.Tag, user.ID, user.Email, user.SpeedLimit, sessionInbound.Source.Address.IP().String())
-			if ok {
+			if user.SpeedLimit > 0 {
+				bucket := rate.NewLimiter(rate.Limit(user.SpeedLimit), int(user.SpeedLimit)) // Byte/s
 				inboundLink.Writer = limiter.RateWriter(inboundLink.Writer, bucket)
 				outboundLink.Writer = limiter.RateWriter(outboundLink.Writer, bucket)
 			}
