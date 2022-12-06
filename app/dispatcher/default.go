@@ -26,7 +26,7 @@ import (
 	"github.com/xtls/xray-core/transport/pipe"
 
 	// Device limit and speed limit
-	"rate"
+	"golang.org/x/time/rate"
 	"github.com/xtls/xray-core/common/limiter"
 	//
 )
