@@ -32,6 +32,7 @@ type User struct {
 	// Protocol specific account information. Must be the account proto in one of
 	// the proxies.
 	Account     *serial.TypedMessage `protobuf:"bytes,3,opt,name=account,proto3" json:"account,omitempty"`
+	// Device limit and speed limit
 	DeviceLimit uint32               `protobuf:"varint,4,opt,name=device_limit,json=deviceLimit,proto3" json:"device_limit,omitempty"`
 	SpeedLimit  uint64               `protobuf:"varint,5,opt,name=speed_limit,json=speedLimit,proto3" json:"speed_limit,omitempty"`
 }
