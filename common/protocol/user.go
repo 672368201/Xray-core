@@ -42,6 +42,6 @@ type MemoryUser struct {
 	Level   uint32
 
 	// Device limit and speed limit
-	DeviceLimit int
+	DeviceLimit uint32
 	SpeedLimit  uint64
 }
