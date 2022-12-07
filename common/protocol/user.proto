@@ -17,6 +17,7 @@ message User {
   // the proxies.
   xray.common.serial.TypedMessage account = 3;
   
-  int device_limit = 4;
+  // Device limit and speed limit
+  uint32 device_limit = 4;
   uint64 speed_limit = 5;
 }
