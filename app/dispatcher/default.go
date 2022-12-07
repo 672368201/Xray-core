@@ -28,7 +28,6 @@ import (
 	// Device limit and speed limit
 	"golang.org/x/time/rate"
 	"github.com/xtls/xray-core/common/limiter"
-	//
 )
 
 var errSniffingTimeout = newError("timeout on sniffing")
@@ -234,7 +233,7 @@ func (d *DefaultDispatcher) getLink(ctx context.Context, network net.Network, sn
 		if user.DeviceLimit > 0 {
 			reject := limiter.CheckDeviceLimit(user.ID, user.Email, user.DeviceLimit, sessionInbound.Source.Address.IP().String())
 			if reject {
-				//newError("Devices reach the limit: ", user.Email).AtWarning().WriteToLog()
+				newError("Devices reach the limit: ", user.Email).AtWarning().WriteToLog()
 				common.Close(outboundLink.Writer)
 				common.Close(inboundLink.Writer)
 				common.Interrupt(outboundLink.Reader)
@@ -243,11 +242,10 @@ func (d *DefaultDispatcher) getLink(ctx context.Context, network net.Network, sn
 			}
 		}
 		if user.SpeedLimit > 0 {
-			bucket := rate.NewLimiter(rate.Limit(user.SpeedLimit), int(user.SpeedLimit)) // Byte/s
+			bucket := rate.NewLimiter(rate.Limit(user.SpeedLimit), int(user.SpeedLimit)) // byte/s
 			inboundLink.Writer = limiter.RateWriter(inboundLink.Writer, bucket)
 			outboundLink.Writer = limiter.RateWriter(outboundLink.Writer, bucket)
 		}
-		//
 
 		p := d.policy.ForLevel(user.Level)
 		if p.Stats.UserUplink {
