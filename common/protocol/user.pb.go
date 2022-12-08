@@ -36,7 +36,7 @@ type User struct {
 	// the proxies.
 	Account *serial.TypedMessage `protobuf:"bytes,5,opt,name=account,proto3" json:"account,omitempty"`
 	// For global device limit
-	Id uint32 `protobuf:"varint,6,opt,name=id,proto3" json:"id,omitempty"`
+	ID uint32 `protobuf:"varint,6,opt,name=id,proto3" json:"id,omitempty"`
 }
 
 func (x *User) Reset() {
@@ -106,9 +106,9 @@ func (x *User) GetAccount() *serial.TypedMessage {
 	return nil
 }
 
-func (x *User) GetId() uint32 {
+func (x *User) GetID() uint32 {
 	if x != nil {
-		return x.Id
+		return x.ID
 	}
 	return 0
 }
