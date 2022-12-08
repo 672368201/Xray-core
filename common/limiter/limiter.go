@@ -16,7 +16,7 @@ type Limiter struct {
 
 var limiter Limiter
 
-func CheckDeviceLimit(uid int, email string, deviceLimit int, ip string) bool {
+func CheckDeviceLimit(uid uint32, email string, deviceLimit uint32, ip string) bool {
 	// Local device limit
 	ipMap := new(sync.Map)
 	ipMap.Store(ip, uid)
@@ -27,7 +27,7 @@ func CheckDeviceLimit(uid int, email string, deviceLimit int, ip string) bool {
 		// If this is a new IP
 		if _, ok := ipMap.LoadOrStore(ip, uid); !ok {
 			// Get the number of online IPs including this new IP
-			counter := 0
+			var counter uint32 = 0
 			ipMap.Range(func(key, value interface{}) bool {
 				counter++
 				return true
