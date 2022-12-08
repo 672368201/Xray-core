@@ -40,7 +40,7 @@ func (u *User) ToMemoryUser() (*MemoryUser, error) {
 // MemoryUser is a parsed form of User, to reduce number of parsing of Account proto.
 type MemoryUser struct {
 	// For global device limit
-    ID uint32
+	ID uint32
 
 	// Account is the parsed account of the protocol.
 	Account Account
