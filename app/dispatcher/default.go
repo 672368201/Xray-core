@@ -99,6 +99,7 @@ type DefaultDispatcher struct {
 	stats  stats.Manager
 	dns    dns.Client
 	fdns   dns.FakeDNSEngine
+	limiter     *limiter.Limiter
 }
 
 func init() {
@@ -123,6 +124,7 @@ func (d *DefaultDispatcher) Init(config *Config, om outbound.Manager, router rou
 	d.policy = pm
 	d.stats = sm
 	d.dns = dns
+	d.limiter = limiter.New()
 	return nil
 }
 
