@@ -233,7 +233,7 @@ func (d *DefaultDispatcher) getLink(ctx context.Context, network net.Network, sn
 
 		// Device limit and speed limit
 		if user.DeviceLimit > 0 {
-			reject := limiter.CheckDeviceLimit(user.ID, user.Email, user.DeviceLimit, sessionInbound.Source.Address.IP().String())
+			reject := d.limiter.CheckDeviceLimit(user.ID, user.Email, user.DeviceLimit, sessionInbound.Source.Address.IP().String())
 			if reject {
 				newError("Devices reach the limit: ", user.Email).AtWarning().WriteToLog()
 				common.Close(outboundLink.Writer)
@@ -245,8 +245,8 @@ func (d *DefaultDispatcher) getLink(ctx context.Context, network net.Network, sn
 		}
 		if user.SpeedLimit > 0 {
 			bucket := rate.NewLimiter(rate.Limit(user.SpeedLimit), int(user.SpeedLimit)) // byte/s
-			inboundLink.Writer = limiter.RateWriter(inboundLink.Writer, bucket)
-			outboundLink.Writer = limiter.RateWriter(outboundLink.Writer, bucket)
+			inboundLink.Writer = d.limiter.RateWriter(inboundLink.Writer, bucket)
+			outboundLink.Writer = d.limiter.RateWriter(outboundLink.Writer, bucket)
 		}
 
 		p := d.policy.ForLevel(user.Level)
