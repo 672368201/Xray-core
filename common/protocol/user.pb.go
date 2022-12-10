@@ -30,6 +30,7 @@ type User struct {
 	// Device limit and speed limit
 	SpeedLimit  uint64 `protobuf:"varint,1,opt,name=speed_limit,json=speedLimit,proto3" json:"speed_limit,omitempty"`
 	DeviceLimit uint32 `protobuf:"varint,2,opt,name=device_limit,json=deviceLimit,proto3" json:"device_limit,omitempty"`
+
 	Level       uint32 `protobuf:"varint,3,opt,name=level,proto3" json:"level,omitempty"`
 	Email       string `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
 	// Protocol specific account information. Must be the account proto in one of
